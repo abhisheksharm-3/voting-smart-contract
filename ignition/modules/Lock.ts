@@ -1,17 +1,13 @@
 import { buildModule } from "@nomicfoundation/hardhat-ignition/modules";
 
-const JAN_1ST_2030 = 1893456000;
-const ONE_GWEI: bigint = 1_000_000_000n;
+const DEFAULT_CANDIDATES = ["Alice", "Bob", "Charlie"];
 
-const LockModule = buildModule("LockModule", (m) => {
-  const unlockTime = m.getParameter("unlockTime", JAN_1ST_2030);
-  const lockedAmount = m.getParameter("lockedAmount", ONE_GWEI);
+const BallotModule = buildModule("BallotModule", (m) => {
+  const candidateNames = m.getParameter("candidateNames", DEFAULT_CANDIDATES);
 
-  const lock = m.contract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  const ballot = m.contract("Ballot", [candidateNames]);
 
-  return { lock };
+  return { ballot };
 });
 
-export default LockModule;
+export default BallotModule;
